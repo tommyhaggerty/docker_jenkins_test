@@ -5,7 +5,9 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-            sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
+             sh "git clone https://github.com/jabedhasan21/java-hello-world-with-maven.git"
+             sh "/usr/local/bin/mvn install java-hello-world-with-maven"
+             sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
          }
       }
       stage('Deploy') {
