@@ -4,7 +4,7 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-            sh 'echo "I like beef, it\'s tasty"> index.html' 
+            sh 'echo "I like beef, it\'s tasty. I also like chicken."> index.html' 
             sh '''cat <<EOF > Dockerfile 
 FROM python:latest
 WORKDIR /Docker_Project
