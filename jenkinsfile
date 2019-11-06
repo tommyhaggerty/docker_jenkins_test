@@ -1,6 +1,6 @@
 pipeline {
    agent { node 'Mac' } 
-   triggers { cron('H/1***') }
+   triggers { cron('H /* * * *')}
 
    stages {
       stage('Build') {
