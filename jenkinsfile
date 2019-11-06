@@ -4,7 +4,6 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-            sh 'echo "I like beef, it\'s tasty. I also like chicken, it is not as good as beef."> index.html' 
             sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
          }
       }
