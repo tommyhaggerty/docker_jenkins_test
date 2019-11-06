@@ -1,6 +1,6 @@
 version: "3"
 services:
   web:
-    image: "tommyhaggerty/tommyhaggerty:${env.BUILD_ID}"
+    image: "tommyhaggerty/tommyhaggerty:${BUILD_ID}"
     ports: 
         - "8000:8000"
