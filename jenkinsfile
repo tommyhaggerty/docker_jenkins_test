@@ -1,0 +1,32 @@
+pipeline {
+   agent { node 'Mac' } 
+
+   stages {
+      stage('Build') {
+         steps {
+            sh 'echo "I like beef, it\'s tasty"> index.html' 
+            sh '''cat <<EOF > Dockerfile 
+FROM python:latest
+WORKDIR /Docker_Project
+COPY index.html .
+EXPOSE 8000
+CMD python -m http.server 8000
+EOF'''
+            sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
+         }
+      }
+      stage('Deploy') {
+          steps {
+              sh """cat <<EOF > docker-compose.yml
+version: "3"
+services:
+  web:
+    image: tommyhaggerty/tommyhaggerty:${env.BUILD_ID}
+    ports: 
+        - "8000:8000"
+EOF"""
+            sh '/usr/local/bin/docker stack deploy -c docker-compose.yml test'
+          }
+      }
+   }
+}
