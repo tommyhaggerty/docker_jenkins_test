@@ -7,7 +7,7 @@ pipeline {
          steps {
             git branch: 'master',
     url: 'https://github.com/jabedhasan21/java-hello-world-with-maven.git'
-            sh 'cd java-hello-world-with-maven && mvn install'
+            sh 'cd java-hello-world-with-maven && /usr/local/bin/mvn install'
             sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
          }
       }
