@@ -5,16 +5,19 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-            git branch: 'master',
-    url: 'https://github.com/jabedhasan21/java-hello-world-with-maven.git'
+            // first repository
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'docker_jenkins_test']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/tommyhaggerty/docker_jenkins_test.git']]])
+            // second repository
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'java-hello-world-with-maven']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jabedhasan21/java-hello-world-with-maven.git']]])
+    
             sh 'cd java-hello-world-with-maven && /usr/local/bin/mvn install'
             sh 'ls'
-            sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} .."
+            sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} docker_jenkins_test"
          }
       }
       stage('Deploy') {
           steps {
-            sh "BUILD_ID=${env.BUILD_ID} /usr/local/bin/docker stack deploy -c docker-compose.yml test"
+            sh "BUILD_ID=${env.BUILD_ID} /usr/local/bin/docker stack deploy -c docker_jenkins_test/docker-compose.yml test"
           }
       }
    }
