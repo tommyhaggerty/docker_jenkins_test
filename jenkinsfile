@@ -5,9 +5,10 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-             git branch: 'master',
+            git branch: 'master',
     url: 'https://github.com/jabedhasan21/java-hello-world-with-maven.git'
-             sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
+            sh 'cd java-hello-world-with-maven && mvn install'
+            sh "/usr/local/bin/docker build -t tommyhaggerty/tommyhaggerty:${env.BUILD_ID} ."
          }
       }
       stage('Deploy') {
